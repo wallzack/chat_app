@@ -3,5 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "wallzack <vulcheek@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2"
+  },
+  "repository": "https://github.com/wallzack/chat_app.git"
 }
