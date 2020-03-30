@@ -7,6 +7,7 @@ const app = express();
 
 
 const messages = [];
+let users = [];
 
 app.use(express.static(path.join(__dirname + '/client')));
 
@@ -27,6 +28,14 @@ io.on('connection', (socket) => {
     messages.push(message);
     socket.broadcast.emit('message', message);
   });
-  socket.on('disconnect', () => { console.log('Oh, socket ' + socket.id + ' has left') });
+
+  socket.on('join', (user) => {
+    users.push({ name: user, id: socket.id });
+  })
+
+  socket.on('disconnect', () => { 
+    users = users.filter(el => el.id !== socket.id);
+    console.log('Oh, socket ' + socket.id + ' has left') 
+  });
   console.log('I\'ve added a listener on message event \n');
 });
