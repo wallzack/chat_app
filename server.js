@@ -23,6 +23,7 @@ const io = socket(server);
 
 io.on('connection', (socket) => {
   console.log('New client! Its id – ' + socket.id);
+  
   socket.on('message', (message) => { 
     console.log('Oh, I\'ve got something from ' + socket.id); 
     messages.push(message);
@@ -31,10 +32,19 @@ io.on('connection', (socket) => {
 
   socket.on('join', (user) => {
     users.push({ name: user, id: socket.id });
-  })
+    socket.broadcast.emit('newUser', user);
+  });
 
   socket.on('disconnect', () => { 
+    let user = '';
+    users = users.filter(el => {
+      if (el.id === socket.id) {
+        user = el.name;
+      };
+    });
+
     users = users.filter(el => el.id !== socket.id);
+    socket.broadcast.emit('removeUser', user);
     console.log('Oh, socket ' + socket.id + ' has left') 
   });
   console.log('I\'ve added a listener on message event \n');

@@ -2,6 +2,8 @@
 {
   const socket = io();
   socket.on('message', ({ author, content }) => addMessage(author, content));
+  socket.on('newUser', (user) => addMessage('Chat Bot', user + ' has joined the conversation!'));
+  socket.on('removeUser', (user) => addMessage('Chat bot', user + ' has left the conversation... :('));
 
 
   const opts = {
